@@ -1,0 +1,2 @@
+city_id;country;country_id;region_id;city;year;month;risk_country;risk_area;population_density;altitude_mean;temperature_mean;precipitations_mean;latitude;longitude
+0;Brasil;0;0;Brasilia;2023;9;2;2;1109;1112;29.9;7.3;-15.799964557525863;-47.891080063521514
