@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 import pydeck as pdk
 
-from src.constants import RISK_LEVELS
+from constants import RISK_LEVELS
 
 BASE_PATH = Path(__file__).resolve().parent
 ICON_PATH = './app/static/map_pin.png'  # TODO: Publish this icon on /static
@@ -40,8 +40,8 @@ def report_map(df_city_data: pd.DataFrame, df_region_data: pd.DataFrame, field_l
     pitch = 0
 
     df_city_data["icon_data"] = None
-    for i in df_city_data.index:
-        df_city_data["icon_data"][i] = ICON_DATA
+    for i, row in df_city_data.iterrows():
+        row["icon_data"] = ICON_DATA
 
     df_region_data["fill_color"] = (df_region_data["risk_level"].astype(int)
                                     .apply(lambda x: RISK_LEVELS[x]['color'])

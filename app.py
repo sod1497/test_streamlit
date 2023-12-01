@@ -6,9 +6,9 @@ BASE_PATH = Path(__file__).resolve().parent
 sys.path.append(str(BASE_PATH.joinpath('../')))
 
 import streamlit as st
-from src.components.report_map import report_map
-from src.constants import RISK_LEVELS
-from src.data import get_data
+from components.report_map import report_map
+from constants import RISK_LEVELS
+from data import get_data
 
 CITY_ID = 0  # TODO: Parametrize
 

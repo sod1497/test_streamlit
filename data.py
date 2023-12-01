@@ -4,7 +4,7 @@ import geopandas as gpd
 from shapely import wkt
 
 BASE_PATH = Path(__file__).resolve().parent
-DATA_PATH = BASE_PATH.joinpath('../data')
+DATA_PATH = BASE_PATH.joinpath('data')
 
 
 def get_data(city_id: int) -> (pd.DataFrame, pd.DataFrame, pd.DataFrame):
