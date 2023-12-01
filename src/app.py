@@ -1,8 +1,11 @@
-import streamlit as st
-import pandas as pd
-import numpy as np
-import pydeck as pdk
+import sys
+from pathlib import Path
 
+BASE_PATH = Path(__file__).resolve().parent
+
+sys.path.append(str(BASE_PATH.joinpath('../')))
+
+import streamlit as st
 from src.components.report_map import report_map
 from src.constants import RISK_LEVELS
 from src.data import get_data
