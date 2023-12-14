@@ -50,8 +50,3 @@ BRAZIL_STATES = {
     'a__031_003_estadosBrasil.26': 'Paraná',
     'a__031_003_estadosBrasil.27': 'São Paulo',
 }
-
-BASE_IP = {
-    'localhost': '',
-    'pro': 'https://sod1497-test-streamlit-srcapp-4tw82p.streamlit.app/'
-}

@@ -6,3 +6,5 @@ geopandas
 numpy
 pydeck
 pyproj
+
+streamlit-folium

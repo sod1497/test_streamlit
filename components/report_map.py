@@ -27,15 +27,15 @@ def hex_to_rgb(hex_color: str) -> list:
     return list(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
 
 
-def report_map(df_city_data: pd.DataFrame, df_region_data: pd.DataFrame, field_latitude: str = 'latitude', field_longitude: str = 'longitude') -> st.pydeck_chart:
+def report_map(df_city_data: pd.DataFrame, df_region_data: pd.DataFrame, city_id: int, field_latitude: str = 'latitude', field_longitude: str = 'longitude') -> st.pydeck_chart:
     """
     Returns the map for the report
     :return: map
     """
 
     # Configure map
-    center_lat = df_city_data.loc[0, field_latitude]
-    center_lon = df_city_data.loc[0, field_longitude]
+    center_lat = df_city_data.loc[city_id, field_latitude]
+    center_lon = df_city_data.loc[city_id, field_longitude]
     zoom = 5
     pitch = 0
 
@@ -48,7 +48,7 @@ def report_map(df_city_data: pd.DataFrame, df_region_data: pd.DataFrame, field_l
                                     .apply(hex_to_rgb))
 
     # TODO: Configure mapbox token
-    return st.pydeck_chart(pdk.Deck(
+    r = pdk.Deck(
         map_style=None,
         views=[
             pdk.View(type="MapView", controller=None),
@@ -82,4 +82,17 @@ def report_map(df_city_data: pd.DataFrame, df_region_data: pd.DataFrame, field_l
                 get_icon='icon_data',
             ),
         ],
-    ))
+    )
+
+    return st.pydeck_chart(r)
+
+
+def on_clic_handler(widget_instance, payload):
+    # Prepare parameters
+    params = {
+        'coordinates': payload['coordinates']
+    }
+
+    # Call handler
+    print(params)
+    # handler(params)

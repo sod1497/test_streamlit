@@ -1,25 +1,71 @@
 import sys
 from pathlib import Path
+import pandas as pd
+import streamlit as st
+from components.report_map_folium import report_map_folium
+from components.report_map import report_map
 
 BASE_PATH = Path(__file__).resolve().parent
 
 sys.path.append(str(BASE_PATH.joinpath('../')))
 
-import streamlit as st
-from components.report_map import report_map
 from constants import RISK_LEVELS
 from data import get_data
 
-CITY_ID = 0  # TODO: Parametrize
+
+# Params
+
+def get_query_param(param) -> [str]:
+    """
+    Returns the query params
+    Compatible with the new and the experimental method (theoretically)
+    https://github.com/streamlit/streamlit/issues/7665
+    :return: query params
+    """
+    try:
+        value = st.experimental_get_query_params().get(param)
+        return value if isinstance(value, list) else [value]
+    except Exception as e:
+        print('Error getting query params using the experimental method. It should be changed to the new one.')
+        return st.query_params.get_all(param)
+
+
+try:
+    CITY_ID = 0 if get_query_param('city-id')[0] != 'None' else int(get_query_param('city-id')[0])
+except Exception as e:
+    print(f"Couldn't load query parameters: {e}")
 
 # Data
 
-df_city_data, df_region_data, df_country_data = get_data(city_id=CITY_ID)
+try:
+    df_city_data, df_region_data, df_country_data = get_data(city_id=CITY_ID)
+except Exception as e:
+    print(f"Couldn't load data: {e}")
+
+
+# Handlers
+
+def get_city_id_selected(df_city_data: pd.DataFrame, last_clicked: dict) -> int:
+    return 1
+
 
 # Layout
 
+if 'last_clicked' not in st.session_state:
+    st.session_state['last_clicked'] = None
+
 # Map and KPI country
-report_map(df_city_data=df_city_data, df_region_data=df_region_data)
+last_clicked = None
+if st.session_state['last_clicked'] is not None:
+    last_clicked = st.session_state["last_clicked"]
+
+out = report_map_folium(df_city_data=df_city_data, df_region_data=df_region_data, city_id=CITY_ID, last_clicked=last_clicked)
+
+if out['last_clicked'] is not None and out['last_clicked'] != st.session_state["last_clicked"]:
+    st.session_state["last_clicked"] = out['last_clicked']
+    # city_id_selected = get_city_id_selected(df_city_data, out['last_clicked'])
+    # st.experimental_set_query_params(**{'city-id': city_id_selected})  # Can't use this. It forces a full reload
+    st.rerun()
 
 # Destination and risk
 c_dest, c_risk = st.columns(2, gap="small")
