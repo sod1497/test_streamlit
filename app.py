@@ -22,12 +22,7 @@ def get_query_param(param) -> [str]:
     https://github.com/streamlit/streamlit/issues/7665
     :return: query params
     """
-    try:
-        value = st.experimental_get_query_params().get(param)
-        return value if isinstance(value, list) else [value]
-    except Exception as e:
-        print('Error getting query params using the experimental method. It should be changed to the new one.')
-        return st.query_params.get_all(param)
+    return st.query_params.get_all(param)
 
 
 try:

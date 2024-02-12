@@ -1,10 +1,10 @@
-streamlit==1.28.2
+streamlit==1.30.0
 watchdog==3.0.0
 
-pandas
-geopandas
-numpy
+pandas==2.2.0
+geopandas==0.14.2
+numpy==1.26.3
 pydeck
-pyproj
+pyproj==3.6.1
 
-streamlit-folium
+streamlit-folium==0.18.0
